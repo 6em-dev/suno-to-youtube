@@ -111,8 +111,8 @@ python youtube_uploader.py
 ### Video Information
 Each video gets:
 - **Title**: The filename without the .mp4 extension
-- **Description**: Song name + Suno.com URL + "Songs made by Lamp"
-- **Tags**: music, lamp, suno
+- **Description**: Song name + Suno.com URL
+- **Tags**: music, suno
 - **Category**: Music
 
 ## File Structure
