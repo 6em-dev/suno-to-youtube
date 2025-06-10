@@ -94,7 +94,7 @@ class YouTubeUploader:
                 'snippet': {
                     'title': title,
                     'description': description,
-                    'tags': ['music', 'lamp', 'suno'],
+                    'tags': ['music', 'suno'],
                     'categoryId': '10',  # Music category channel ID if needed
                 },
                 'status': {
@@ -151,7 +151,7 @@ class YouTubeUploader:
         video_info, video_path = result
         
         # Create description
-        description = f"{video_info['song_name']} - {video_info['song_url']}\n\nSongs made by Lamp"
+        description = f"{video_info['song_name']} - {video_info['song_url']}"
         
         # Upload video
         success = self.upload_video(
