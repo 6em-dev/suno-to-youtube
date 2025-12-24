@@ -1,6 +1,16 @@
-# YouTube Auto-Uploader Setup Guide
+# YouTube Auto-Uploader for Suno AI Songs
 
-This tutorial explains how to set up and run the automated YouTube uploader for your Suno AI songs.
+Automatically download your Suno AI music videos and upload them to YouTube on a schedule. This tool handles everything from downloading to uploading with automated 3-hour intervals between uploads.
+
+## Quick Start
+
+1. Create your `input.txt` file with your Suno song URLs
+2. Install Python dependencies
+3. Set up YouTube API credentials
+4. Download videos with the download script
+5. Run the uploader
+
+**First time?** Follow the detailed setup guide below.
 
 ## Prerequisites
 
@@ -14,6 +24,41 @@ Make sure you have these files in your project directory:
 - `input.txt` - Contains your video filenames and URLs
 - `download.sh` (Linux/Mac) or `download.bat` (Windows) - For downloading videos
 - `db/` folder - Where your downloaded videos will be stored
+
+## Understanding the input.txt Format
+
+The `input.txt` file is the heart of this automation. It tells the system which videos to download and upload.
+
+### Format
+Each line in `input.txt` should follow this exact format:
+```
+filename.mp4 | suno_song_url
+```
+
+### Important Rules
+- Use the pipe character `|` to separate the filename from the URL
+- Include spaces around the `|` for readability (optional but recommended)
+- The filename should end with `.mp4`
+- The URL should be a valid Suno song URL
+
+### Example input.txt
+```
+Amazing Song.mp4 | https://suno.com/song/a1b2c3d4-e5f6-7890-abcd-ef1234567890
+Chill Vibes.mp4 | https://suno.com/song/b2c3d4e5-f6g7-8901-bcde-f12345678901
+Epic Beat.mp4 | https://suno.com/song/c3d4e5f6-g7h8-9012-cdef-123456789012
+Summer Dreams.mp4 | https://suno.com/song/d4e5f6g7-h8i9-0123-defg-234567890123
+```
+
+### How to Get Suno URLs
+1. Go to [Suno.com](https://suno.com/)
+2. Find your song
+3. Copy the song URL (it will look like: `https://suno.com/song/[long-id]`)
+4. Add it to `input.txt` with your desired filename
+
+### What Happens
+- The **filename** determines what the video file will be named when downloaded
+- The **song name** (filename without `.mp4`) becomes the YouTube video title
+- The **URL** is used to download the video and is included in the YouTube description
 
 ## Step 1: Install Python Dependencies
 
@@ -52,7 +97,21 @@ pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib s
 7. Download the JSON file and rename it to `credentials.json`
 8. Place `credentials.json` in the same folder as `youtube_uploader.py`
 
-## Step 3: Download Your Videos
+## Step 3: Prepare the Database Folder
+
+Create a folder called `db` in your project directory where videos will be downloaded:
+
+### Linux/Mac:
+```bash
+mkdir -p db
+```
+
+### Windows:
+```cmd
+mkdir db
+```
+
+## Step 4: Download Your Videos
 
 ### Linux/Mac:
 Make the download script executable and run it:
@@ -69,7 +128,7 @@ download.bat
 
 This will download all videos from `input.txt` into the `db/` folder.
 
-## Step 4: Configure the Uploader
+## Step 5: Configure the Uploader (Optional)
 
 Open `youtube_uploader.py` and modify these settings if needed:
 
@@ -83,7 +142,7 @@ You can also change the upload privacy setting:
 'privacyStatus': 'public'  # Options: 'public', 'private', 'unlisted'
 ```
 
-## Step 5: Run the Uploader
+## Step 6: Run the Uploader
 
 ### Linux/Mac:
 ```bash
@@ -133,6 +192,12 @@ project-folder/
 
 ## Troubleshooting
 
+### "Failed to load video information"
+- Check that `input.txt` exists in the same folder as the uploader
+- Verify each line has the correct format: `filename.mp4 | url`
+- Make sure you're using the pipe character `|` as separator
+- Check that there are no blank lines at the start of the file
+
 ### "Authentication failed"
 - Make sure `credentials.json` is in the correct location
 - Verify YouTube Data API v3 is enabled
@@ -141,7 +206,8 @@ project-folder/
 ### "Video file not found"
 - Run the download script first to get all videos
 - Check that the `db/` folder exists and contains videos
-- Verify filenames in `input.txt` match downloaded files
+- Verify filenames in `input.txt` exactly match downloaded files in `db/`
+- File names are case-sensitive!
 
 ### "HTTP error occurred"
 - Check your internet connection
